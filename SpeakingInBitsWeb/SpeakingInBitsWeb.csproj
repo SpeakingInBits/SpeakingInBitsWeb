@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-SpeakingInBitsWeb-1B695A4E-10DE-47C5-A2CB-2F95A576A14A</UserSecretsId>
+    <UserSecretsId>aspnet-SpeakingInBitsWeb-221A37E9-7B03-4004-81D2-F02BD416B7BF</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

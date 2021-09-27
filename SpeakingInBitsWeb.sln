@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakingInBitsWeb", "SpeakingInBitsWeb\SpeakingInBitsWeb.csproj", "{90C2889E-98FC-498F-B587-167CA1E6923D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakingInBitsWeb", "SpeakingInBitsWeb\SpeakingInBitsWeb.csproj", "{37D70C97-52CE-4D47-95FB-396286C1E81C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{90C2889E-98FC-498F-B587-167CA1E6923D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90C2889E-98FC-498F-B587-167CA1E6923D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90C2889E-98FC-498F-B587-167CA1E6923D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90C2889E-98FC-498F-B587-167CA1E6923D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D70C97-52CE-4D47-95FB-396286C1E81C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D70C97-52CE-4D47-95FB-396286C1E81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D70C97-52CE-4D47-95FB-396286C1E81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D70C97-52CE-4D47-95FB-396286C1E81C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
