@@ -1,3 +1,5 @@
+[![.NET](https://github.com/SpeakingInBits/SpeakingInBitsWeb/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SpeakingInBits/SpeakingInBitsWeb/actions/workflows/dotnet.yml)
+
 # SpeakingInBits Web
 This project is being made to host courses and lecture material for students. Currently there will be one
 instructor managing the courses. Students will eventually be able to track their progress through each course,
