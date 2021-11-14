@@ -18,7 +18,6 @@ namespace SpeakingInBitsWeb.Controllers
 
         public async Task<IActionResult> Index()
         {
-            await _emailProvider.SendEmailAsync(null, null, null, null, null);
             return View();
         }
 
