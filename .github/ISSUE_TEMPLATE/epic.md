@@ -11,10 +11,7 @@ assignees: ''
 As a [type of user], I want [goal or feature], so that [benefit or reason]
 
 <!-- REMINDER: Really think about various edge cases -->
-Acceptance Criteria:
-- [ ] [Condition or behavior that must be met]
-- [ ] [Edge case or alternate behavior]
-- [ ] [Performance or usability requirement]
+<!-- Add a list of Acceptance Criteria here or use sub-issues -->
 
 Notes:
 - [Optional design or technical notes]
