@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,12 @@ namespace SpeakingInBitsWeb.Controllers;
 public class CoursesController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public CoursesController(ApplicationDbContext context)
+    public CoursesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
     // GET: Courses
@@ -56,8 +59,21 @@ public class CoursesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,CourseCode,Description")] Course course)
+    public async Task<IActionResult> Create(Course course)
     {
+        string? userId = _userManager.GetUserId(User);
+        Instructor? instructor = await _context.Users.OfType<Instructor>()
+            .FirstOrDefaultAsync(i => i.Id == userId);
+        
+        if (instructor != null)
+        {
+            course.CourseInstructor = instructor;
+        }
+
+        // Remove CourseInstructor from ModelState since it's being set here programmatically
+        // It must be removed because it's happening after model binding and validation
+        ModelState.Remove(nameof(Course.CourseInstructor));
+
         if (ModelState.IsValid)
         {
             _context.Add(course);

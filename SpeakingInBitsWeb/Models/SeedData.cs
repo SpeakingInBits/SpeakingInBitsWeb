@@ -35,7 +35,7 @@ namespace SpeakingInBitsWeb.Models
 
             if (defaultUser == null)
             {
-                ApplicationUser newUser = new()
+                Instructor newUser = new()
                 {
                     UserName = "DefaultInstructor",
                     Email = defaultEmail,
