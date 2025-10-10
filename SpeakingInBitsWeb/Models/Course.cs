@@ -27,7 +27,7 @@ public class Course
     /// Short unique code for the course, e.g. "CPW230". Course codes
     /// start with at least one letter (can be up to 5) ending with 3 digits.
     /// </summary>
-    [RegularExpression(@"^[A-Za-z]+[0-9]{3}$", ErrorMessage = "Course code must start with letters and end with 3 digits.")]
+    [RegularExpression(@"^[A-Za-z]{1,5}[0-9]{3}$", ErrorMessage = "Course code must start with 1-5 letters and end with 3 digits.")]
     [StringLength(8)]
     public string? CourseCode { get; set; }
 
