@@ -27,7 +27,11 @@ public class CoursesController : Controller
     // GET: Courses
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Courses.ToListAsync());
+        string? userId = _userManager.GetUserId(User);
+        var courses = await _context.Courses
+            .Where(c => c.CourseInstructor != null && c.CourseInstructor.Id == userId)
+            .ToListAsync();
+        return View(courses);
     }
 
     // GET: Courses/Create
