@@ -2,24 +2,25 @@
 using Microsoft.EntityFrameworkCore;
 using SpeakingInBitsWeb.Models;
 
-namespace SpeakingInBitsWeb.Data
+namespace SpeakingInBitsWeb.Data;
+
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        protected override void OnModelCreating(ModelBuilder builder)
+        base.OnModelCreating(builder);
+
+        builder.Entity<ApplicationUser>(entity =>
         {
-            base.OnModelCreating(builder);
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsRequired();
 
-            builder.Entity<ApplicationUser>(entity =>
-            {
-                entity.Property(e => e.FirstName)
-                    .HasMaxLength(50)
-                    .IsRequired();
-
-                entity.Property(e => e.LastName)
-                    .HasMaxLength(50)
-                    .IsRequired();
-            });
-        }
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsRequired();
+        });
     }
+
+    public DbSet<Course> Courses { get; set; }
 }
