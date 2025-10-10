@@ -36,4 +36,9 @@ public class Course
     /// </summary>
     [StringLength(300)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// The instructor for the course
+    /// </summary>
+    public required Instructor CourseInstructor { get; set; }
 }

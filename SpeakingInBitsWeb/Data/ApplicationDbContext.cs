@@ -20,6 +20,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .HasMaxLength(50)
                 .IsRequired();
         });
+
+        builder.Entity<Instructor>()
+            .HasMany(i => i.Courses)
+            .WithOne(c => c.CourseInstructor)
+            .OnDelete(DeleteBehavior.Restrict); // Prevent accidental cascade deletes
     }
 
     public DbSet<Course> Courses { get; set; }
