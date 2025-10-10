@@ -13,7 +13,7 @@ namespace SpeakingInBitsWeb.Models
         /// <param name="roleManager">The role manager service.</param>
         public static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = ["Instructor", "Student"];
+            string[] roles = [Roles.Instructor, Roles.Student];
 
             foreach (var role in roles)
             {
@@ -49,7 +49,7 @@ namespace SpeakingInBitsWeb.Models
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(newUser, "Instructor");
+                    await userManager.AddToRoleAsync(newUser, Roles.Instructor);
                 }
             }
         }

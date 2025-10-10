@@ -11,7 +11,7 @@ using SpeakingInBitsWeb.Models;
 
 namespace SpeakingInBitsWeb.Controllers;
 
-[Authorize(Roles = "Instructor")]
+[Authorize(Roles = Roles.Instructor)]
 public class CoursesController : Controller
 {
     private readonly ApplicationDbContext _context;
