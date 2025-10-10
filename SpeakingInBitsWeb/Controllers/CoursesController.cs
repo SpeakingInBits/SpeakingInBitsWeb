@@ -104,18 +104,25 @@ public class CoursesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CourseCode,Description")] Course course)
+    public async Task<IActionResult> Edit(int id, Course course)
     {
         if (id != course.Id)
         {
             return NotFound();
         }
 
+        // Remove CourseInstructor from ModelState since we're not updating it
+        ModelState.Remove(nameof(Course.CourseInstructor));
+
         if (ModelState.IsValid)
         {
             try
             {
                 _context.Update(course);
+                             
+                // Explicitly tell EF that the CourseInstructor navigation property is unchanged
+                _context.Entry(course).Reference(c => c.CourseInstructor).IsModified = false;
+                
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
