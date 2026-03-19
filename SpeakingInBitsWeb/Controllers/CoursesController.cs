@@ -77,12 +77,26 @@ public class CoursesController : Controller
             return NotFound();
         }
 
-        var course = await _context.Courses.FindAsync(id);
-        if (course == null)
+        
+
+        // Fetch the course from the database, including the instructor
+        var courseToUpdate = await _context.Courses
+            .Include(c => c.CourseInstructor)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (courseToUpdate == null)
         {
             return NotFound();
         }
-        return View(course);
+
+        // Get current user ID to check ownership
+        string? userId = _userManager.GetUserId(User);
+        if (courseToUpdate.CourseInstructor == null || courseToUpdate.CourseInstructor.Id != userId)
+        {
+            return Forbid();
+        }
+
+        return View(courseToUpdate);
     }
 
     // POST: Courses/Edit/5
@@ -124,25 +138,9 @@ public class CoursesController : Controller
             // Update allowed properties only (do not update instructor)
             courseToUpdate.Title = course.Title;
             courseToUpdate.Description = course.Description;
-            courseToUpdate.StartDate = course.StartDate;
-            courseToUpdate.EndDate = course.EndDate;
-            // Add other properties as needed, but do not update CourseInstructor
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(course.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
         return View(course);
@@ -156,14 +154,26 @@ public class CoursesController : Controller
             return NotFound();
         }
 
-        var course = await _context.Courses
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (course == null)
+        // Get current user ID
+        string? userId = _userManager.GetUserId(User);
+
+        // Fetch the course from the database, including the instructor
+        var courseToDelete = await _context.Courses
+            .Include(c => c.CourseInstructor)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (courseToDelete == null)
         {
             return NotFound();
         }
 
-        return View(course);
+        // Check ownership
+        if (courseToDelete.CourseInstructor == null || courseToDelete.CourseInstructor.Id != userId)
+        {
+            return Forbid();
+        }
+
+        return View(courseToDelete);
     }
 
     // POST: Courses/Delete/5
@@ -171,18 +181,28 @@ public class CoursesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var course = await _context.Courses.FindAsync(id);
-        if (course != null)
+        // Get current user ID
+        string? userId = _userManager.GetUserId(User);
+
+        // Fetch the course from the database, including the instructor
+        var courseToDelete = await _context.Courses
+            .Include(c => c.CourseInstructor)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (courseToDelete == null)
         {
-            _context.Courses.Remove(course);
+            return NotFound();
         }
 
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
+        // Check ownership
+        if (courseToDelete.CourseInstructor == null || courseToDelete.CourseInstructor.Id != userId)
+        {
+            return Forbid();
+        }
 
-    private bool CourseExists(int id)
-    {
-        return _context.Courses.Any(e => e.Id == id);
+        _context.Courses.Remove(courseToDelete);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
     }
 }
