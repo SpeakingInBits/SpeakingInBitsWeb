@@ -102,13 +102,34 @@ public class CoursesController : Controller
 
         if (ModelState.IsValid)
         {
+            // Get current user ID
+            string? userId = _userManager.GetUserId(User);
+
+            // Fetch the course from the database, including the instructor
+            var courseToUpdate = await _context.Courses
+                .Include(c => c.CourseInstructor)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (courseToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            // Check ownership
+            if (courseToUpdate.CourseInstructor == null || courseToUpdate.CourseInstructor.Id != userId)
+            {
+                return Forbid();
+            }
+
+            // Update allowed properties only (do not update instructor)
+            courseToUpdate.Title = course.Title;
+            courseToUpdate.Description = course.Description;
+            courseToUpdate.StartDate = course.StartDate;
+            courseToUpdate.EndDate = course.EndDate;
+            // Add other properties as needed, but do not update CourseInstructor
+
             try
             {
-                _context.Update(course);
-                             
-                // Explicitly tell EF that the CourseInstructor navigation property is unchanged
-                _context.Entry(course).Reference(c => c.CourseInstructor).IsModified = false;
-                
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
