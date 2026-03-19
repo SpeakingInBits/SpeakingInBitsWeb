@@ -138,6 +138,7 @@ public class CoursesController : Controller
             // Update allowed properties only (do not update instructor)
             courseToUpdate.Title = course.Title;
             courseToUpdate.Description = course.Description;
+            courseToUpdate.CourseCode = course.CourseCode;
 
             await _context.SaveChangesAsync();
 
